@@ -1,0 +1,18 @@
+modules:
+    workshop-overview:
+        name: Workshop Overview
+        exit_sign: What is CNR?
+    exercises/01-what-is-cnr:
+        name: What is CNR?
+        exit_sign: Introduction to Knative Serving
+    exercises/02-knative-serving:
+        name: Introduction to Knative Serving
+        exit_sign: Try Knative Serving
+    exercises/03-try-knative-serving:
+        name: Try Knative Serving
+        exit_sign: More Knative Serving 
+    exercises/04-more-knative-serving:
+        name: More Knative Serving
+    workshop-summary:
+        name: Workshop Summary
+        exit_sign: Finish Workshop
