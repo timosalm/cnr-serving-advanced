@@ -3,8 +3,11 @@ name: Markdown Sample
 modules:
     activate:
     - workshop-overview
-    - exercises/01-what-is-cnr
-    - exercises/02-knative-serving
-    - exercises/03-try-knative-serving
-    - exercises/04-more-knative-serving
+    - exercises/01-what-is-knative
+    - exercises/02-knative-capabilities
+    - exercises/03-intro-knative-serving
+    - exercises/04-serving-components
+    - exercises/05-services-configurations-revisions
+    - exercises/06-routes
+    - exercises/07-autoscaling
     - workshop-summary

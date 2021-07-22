@@ -1,18 +1,28 @@
 modules:
     workshop-overview:
         name: Workshop Overview
-        exit_sign: What is CNR?
-    exercises/01-what-is-cnr:
-        name: What is CNR?
-        exit_sign: Introduction to Knative Serving
-    exercises/02-knative-serving:
-        name: Introduction to Knative Serving
-        exit_sign: Try Knative Serving
-    exercises/03-try-knative-serving:
-        name: Try Knative Serving
-        exit_sign: More Knative Serving 
-    exercises/04-more-knative-serving:
-        name: More Knative Serving
+        exit_sign: What is Knative?
+    exercises/01-what-is-knative:
+        name: What is Knative?
+        exit_sign: Knative’s capabilities
+    exercises/02-knative-capabilities:
+        name: Knative’s capabilities
+        exit_sign: Introducing Knative Serving
+    exercises/03-intro-knative-serving:
+        name: Introducing Knative Serving
+        exit_sign: Serving components
+    exercises/04-serving-components:
+        name: Serving components
+        exit_sign: Services, Configurations, and Revisions
+    exercises/05-services-configurations-revisions:
+        name: Services, Configurations, and Revisions
+        exit_sign: Routes
+    exercises/06-routes:
+        name: Routes
+        exit_sign: Autoscaling
+    exercises/07-autoscaling:
+        name: Autoscaling
+        exit_sign: Workshop Summary
     workshop-summary:
         name: Workshop Summary
         exit_sign: Finish Workshop
