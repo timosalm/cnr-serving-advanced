@@ -81,7 +81,7 @@ Changing the environment variable caused the creation of a second *Revision*. Ch
 ## Splitting traffic
 Let's now validate that *Route* updates don’t create new *Revisions* by splitting traffic evenly between the last two *Revisions*. 
 ```terminal:execute
-command: kn service update intro-knative-example  --traffic intro-knative-example-00001=50 --traffic intro-knative-example-00001=50
+command: kn service update intro-knative-example --traffic intro-knative-example-00001=50 --traffic intro-knative-example-00002=50
 ```
 The `--traffic` parameter allows us to assign percentages to each *Revision*. The key is that the percentages must all add up to 100. 
 As you can see there are still three revisions.
@@ -103,7 +103,7 @@ command: curl $(kn service describe intro-knative-example -o url)
 You don’t explicitly need to set traffic to 0% for a *Revision*. You can achieve the same by leaving out *Revisions*.
 Finally, you can switch over all the traffic using `@latest` as your target.
 ```terminal:execute
-command: kn service update intro-knative-example  --traffic @latest=100
+command: kn service update intro-knative-example --traffic @latest=100
 ```
 
 To clean up the environment for the next section run:
