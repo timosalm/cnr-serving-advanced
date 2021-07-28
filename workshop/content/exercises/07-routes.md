@@ -34,7 +34,7 @@ The `Ready` condition is relevant, but by itself, it doesn’t tell you much. Th
 
 There is more to *Routes* that, by design, kn does not let you directly control, so we have to look at the YAML definition.
 ```terminal:execute
-command: kubectl get route advanced-knative-route-example-o yaml
+command: kubectl get route advanced-knative-route-example -o yaml
 ```
 `metadata.name` should be familiar, as well as the `apiVersion` and `kind` keys. The core of *Route’s* work lives in `spec.traffic`. And, in fact, traffic is the only key in a *Route’s* spec.
 The traffic key is an array of *Traffic Targets*. And it is *Traffic Targets* that are the meat of a *Route*. 
