@@ -45,10 +45,10 @@ EOF
 The alternative is setting a `/minScale` annotation on a *Service* or a *Revision*.
 For a *Revision* you can do that with the kubectl CLI, but because the annotation has to be set in the *RevisionTemplateSpec* it's not possible to set it via `kubectl annotate kservice`.
 ```terminal:execute
-command: kubectl annotate revision $(kn revision list -o json  | jq --raw-output '.items[0].metadata.name') autoscaling.knative.dev/minScale=1
+command: kubectl annotate revision advanced-knative-autoscaling-example-00001 autoscaling.knative.dev/minScale=1
 ```
 ```terminal:execute
-command: kn revision describe $(kn revision list -o json  | jq --raw-output '.items[0].metadata.name')
+command: kn revision describe advanced-knative-autoscaling-example-00001
 ```
 As an alternative, you can set the annotation for a *Service* in *RevisionTemplateSpec* via YAML.
 ```execute
@@ -142,5 +142,6 @@ The Vertical Pod Autoscaler (VPA) is not directly supported and doesn’t really
 
 To clean up the environment if you want to jump to another section run:
 ```terminal:execute
-command: kn service delete advanced-knative-autoscaling-example && clear
+command: kn service delete advanced-knative-autoscaling-example
+clear: true
 ```

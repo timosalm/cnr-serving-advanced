@@ -13,14 +13,17 @@ modules:
         exit_sign: Serving components
     exercises/04-serving-components:
         name: Serving components
-        exit_sign: Services, Configurations, and Revisions
-    exercises/05-services-configurations-revisions:
-        name: Services, Configurations, and Revisions
+        exit_sign: Services and Configurations
+    exercises/05-services-configurations:
+        name: Services and Configurations
+        exit_sign: Revisions
+    exercises/06-revisions:
+        name: Revisions
         exit_sign: Routes
-    exercises/06-routes:
+    exercises/07-routes:
         name: Routes
         exit_sign: Autoscaling
-    exercises/07-autoscaling:
+    exercises/08-autoscaling:
         name: Autoscaling
         exit_sign: Workshop Summary
     workshop-summary:

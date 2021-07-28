@@ -54,7 +54,7 @@ This might not be what you want, however. While it guarantees that your requests
 
 Setting a tag is what gives us the ability to directly target a particular *Revision*. Let’s now tag the two latest *Revisions*. 
 ```terminal:execute
-command: kn service update advanced-knative-route-example --tag $(kn revision list -o json  | jq --raw-output '.items[0].metadata.name')=first-tag --tag $(kn revision list -o json  | jq --raw-output '.items[1].metadata.name')=second-tag
+command: kn service update advanced-knative-route-example --tag advanced-knative-route-example-00002=first-tag --tag advanced-knative-route-example-00001=second-tag
 ```
 Note that adding a tag doesn’t cause a new *Revision* to be stamped out. That’s because tag is part of a *Route*, not part of a *Configuration*. 
 ```terminal:execute
@@ -107,5 +107,6 @@ Knative Serving opts for safety. This means that as it removes the first-tag tag
 
 To clean up the environment for the next section run:
 ```terminal:execute
-command: kn service delete advanced-knative-route-example && clear
+command: kn service delete advanced-knative-route-example
+clear: true
 ```

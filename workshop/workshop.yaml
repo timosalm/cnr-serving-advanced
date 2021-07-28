@@ -7,7 +7,8 @@ modules:
     - exercises/02-knative-capabilities
     - exercises/03-intro-knative-serving
     - exercises/04-serving-components
-    - exercises/05-services-configurations-revisions
-    - exercises/06-routes
-    - exercises/07-autoscaling
+    - exercises/05-services-configurations
+    - exercises/06-revisions
+    - exercises/07-routes
+    - exercises/08-autoscaling
     - workshop-summary
