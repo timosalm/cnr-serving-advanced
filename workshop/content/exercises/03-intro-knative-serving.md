@@ -15,33 +15,39 @@ Let's now use kn, the "official" CLI for Knative, exclusively to demonstrate som
 
 We can create a *Service* using kn service create. 
 ```terminal:execute
-command: kn service create intro-knative-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First"          
+command: kn service create intro-knative-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First"   
+clear: true       
 ```
 
 To test our deployment send a request to the application after deployment is ready to serve traffic.
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 
 ## Your second deployment
 
 ```terminal:execute
 command: kn service update intro-knative-example --env TARGET="Second"
+clear: true
 ```
 Let’s now send another request to the application after the updated deployment is ready to serve traffic.
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 
 If you run the following command you can see that our update command created a second *Revision*. The 1 and 2 suffixes indicate the generation of the *Service*.
 ```terminal:execute
 command: kn revision list
+clear: true
 ```
 Did the second replace the first *Revision*? If you’re an end user sending HTTP requests to the URL, yes, it appears as though a total replacement took place. But from the point of view of a developer, both *Revisions* still exist.
 
 You can look more closely at each of these with `kn revision describe <revision-name>`.
 ```terminal:execute
 command: kn revision describe intro-knative-example-00002
+clear: true
 ```
 It’s worth taking a slightly closer look at the *Conditions*.
 
@@ -59,10 +65,12 @@ So this line `I Active 11s NoTraffic` can be read as "As of 11 seconds ago, the 
 If we send another request to the application ...
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 and rerun the command for the revision details ...
 ```terminal:execute
 command: kn revision describe intro-knative-example-00002
+clear: true
 ```
 we now see `++ Active` without the *NoTraffic* reason. Knative is saying that a running process was created and is active. If you leave it for a minute, the process will shut down again and the *Active* Condition will return to complaining about a lack of traffic.
 
@@ -71,10 +79,12 @@ we now see `++ Active` without the *NoTraffic* reason. Knative is saying that a 
 Let's now change the container image of the application implemented in Golang to the same application written in Rust ...
 ```terminal:execute
 command: kn service update intro-knative-example --image gcr.io/knative-samples/helloworld-rust
+clear: true
 ```
 and send another request to the updated application deployment.
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 Changing the environment variable caused the creation of a second *Revision*. Changing the image caused a third *Revision* to be created. But because you didn’t change the variable, the third *Revision* also says `Hello world: Second`. In fact, almost any update you make to a *Service* causes a new *Revision* to be stamped out. Almost any? What’s the exception? It’s *Routes*. Updating these as part of a *Service* won’t create a new *Revision*.
 
@@ -82,20 +92,24 @@ Changing the environment variable caused the creation of a second *Revision*. Ch
 Let's now validate that *Route* updates don’t create new *Revisions* by splitting traffic evenly between the last two *Revisions*. 
 ```terminal:execute
 command: kn service update intro-knative-example --traffic intro-knative-example-00001=50 --traffic intro-knative-example-00002=50
+clear: true
 ```
 The `--traffic` parameter allows us to assign percentages to each *Revision*. The key is that the percentages must all add up to 100. 
 As you can see there are still three revisions.
 ```terminal:execute
 command: kn revision list
+clear: true
 ```
 
 Let's send a request and ...
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 if you send another request you should see that it works and a slightly different message will be returned from the other *Revision*.
 ```terminal:execute
 command: curl $(kn service describe intro-knative-example -o url)
+clear: true
 ```
 *Hint: If there are timeout issues e.g. due to the scale from zero to one instance, just rerun the command.*
 
@@ -104,6 +118,7 @@ You don’t explicitly need to set traffic to 0% for a *Revision*. You can achie
 Finally, you can switch over all the traffic using `@latest` as your target.
 ```terminal:execute
 command: kn service update intro-knative-example --traffic @latest=100
+clear: true
 ```
 
 To clean up the environment for the next section run:

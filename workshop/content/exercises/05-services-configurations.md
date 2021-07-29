@@ -57,65 +57,75 @@ This document isn’t meant to be used by kn, it would typically be submitted to
 The template is actually a *RevisionTemplateSpec* and the innermost spec is a *RevisionSpec*. It is converted into *Revisions* and changing the template is what causes the creation of Revisions.
 
 Let's now create the first revision of a service/configuration via a YAML document. In this case we are redirecting the YAML document content input into the interactive shell command. In most cases you would instead create a file of type yaml and apply it via e.g. `kubectl apply -f advanced-knative-example.yaml`
-```execute
-kubectl apply -f - << EOF
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  name: advanced-knative-example
-spec:
-  template:
-    spec:
-      containers:
-      - image: gcr.io/knative-samples/helloworld-go
-        env:
-        - name: TARGET
-          value: "First"
-EOF
+```terminal:execute
+command: |
+  kubectl apply -f - << EOF
+  apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: advanced-knative-example
+  spec:
+    template:
+      spec:
+        containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          env:
+          - name: TARGET
+            value: "First"
+  EOF
+clear: true
 ```
 After the document with our configuration is applied, we can check the created service ...
 ```terminal:execute
 command: kubectl get kservice
+clear: true
 ```
 ... , configuration ... 
 ```terminal:execute
 command: kubectl get configurations
+clear: true
 ```
 ..., and revision.
 ```terminal:execute
 command: kubectl get revisions
+clear: true
 ```
 In this case we are using kubectl commands for it, but you are also able to use the kn equivalents.
 
 Let's now update our configuration by changing the ENV variable to the value "Second".
-```execute
-kubectl apply -f - << EOF
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  name: advanced-knative-example
-spec:
-  template:
-    spec:
-      containers:
-      - image: gcr.io/knative-samples/helloworld-go
-        env:
-        - name: TARGET
-          value: "Second"
-EOF
+```terminal:execute
+command: |
+  kubectl apply -f - << EOF
+  apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: advanced-knative-example
+  spec:
+    template:
+      spec:
+        containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          env:
+          - name: TARGET
+            value: "Second"
+  EOF
+clear: true
 ```
 Now you can see two Revisions, but there is still only one *Service* and *Configuration* with the name advanced-knative-example
 ```terminal:execute
 command: kubectl get kservice,configurations
+clear: true
 ```
 ```terminal:execute
 command: kubectl get revisions
+clear: true
 ```
 ### *Services* and *Configuration* status
 There is also a `status` section in the *Service* and *Configuration* Kubernetes objects, that is set by the service and configuration *Reconcilers*. 
 Let's use kubectl to display the *Service* status:
 ```terminal:execute
 command: kubectl describe kservice advanced-knative-example
+clear: true
 ```
 You can see two basic sets of information. The first is conditions, which I will talk about more later (during the discussion of *Revisions*). The second set of information is the trio of `Latest Created Revision Name`, `Latest Ready Revision Name`, and `Observed Generation`.
 

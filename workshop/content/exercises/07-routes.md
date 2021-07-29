@@ -10,16 +10,21 @@ By using kn to create a Knative *Service*, a *Route* will be created automatical
 
 Let's first create a new service with two revisions.
 ```terminal:execute
-command: kn service create advanced-knative-route-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First" && kn service update advanced-knative-route-example --env TARGET="Second"
+command: |
+    kn service create advanced-knative-route-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First"
+    kn service update advanced-knative-route-example --env TARGET="Second"
+clear: true
 ```
 
 The `kn route list` and `kn route describe` commands give you information specific to Routes.
 ```terminal:execute
 command: kn route list
+clear: true
 ```
 You can see the basic information of name, URL, and readiness. Ifyouwant to look more closely, you can use route describe.
 ```terminal:execute
 command: kn route describe advanced-knative-route-example
+clear: true
 ```
 The output should look familiar, it follows the basic structure that you would see from `kn service describe`. 
 The key differences are a new *Traffic Targets* section of kn route describe doesn’t need to show information about *Revisions* in the way that `kn service describe` does and that the *Conditions* have different names from what you’d see in `kn service describe` or `kn revision describe`.
@@ -35,6 +40,7 @@ The `Ready` condition is relevant, but by itself, it doesn’t tell you much. Th
 There is more to *Routes* that, by design, kn does not let you directly control, so we have to look at the YAML definition.
 ```terminal:execute
 command: kubectl get route advanced-knative-route-example -o yaml
+clear: true
 ```
 `metadata.name` should be familiar, as well as the `apiVersion` and `kind` keys. The core of *Route’s* work lives in `spec.traffic`. And, in fact, traffic is the only key in a *Route’s* spec.
 The traffic key is an array of *Traffic Targets*. And it is *Traffic Targets* that are the meat of a *Route*. 
@@ -55,10 +61,12 @@ This might not be what you want, however. While it guarantees that your requests
 Setting a tag is what gives us the ability to directly target a particular *Revision*. Let’s now tag the two latest *Revisions*. 
 ```terminal:execute
 command: kn service update advanced-knative-route-example --tag advanced-knative-route-example-00002=first-tag --tag advanced-knative-route-example-00001=second-tag
+clear: true
 ```
 Note that adding a tag doesn’t cause a new *Revision* to be stamped out. That’s because tag is part of a *Route*, not part of a *Configuration*. 
 ```terminal:execute
 command: kn route describe advanced-knative-route-example
+clear: true
 ```
 As you can see the main URL is still available. Anything sent to this URL flows according to the configuration of the *Traffic Targets*.
 100% of traffic is flowing to @latest becauseyoudidn’t update any -—traffic settings while updating -—tag. The @latest tag is a floating pointer to the latest Revision. This is the same *Revision* that will be pointed to when latestRevision is true.
@@ -70,38 +78,47 @@ Those URLs are of the form http://<tag>-<servicename>.default.example.com.
 Now that you have tags, you can use those to split up traffic. This is exactly the same as splitting traffic using a *Revision* name.
 ```terminal:execute
 command: kn service update advanced-knative-route-example --traffic first-tag=50 --traffic second-tag=50
+clear: true
 ```  
 ```terminal:execute
 command: kn route describe advanced-knative-route-example
+clear: true
 ```
 What happens if you create another *Revision*? Something you might not have expected: the *Revision* exists but can’t receive traffic. 
 ```terminal:execute
 command: kn service update advanced-knative-route-example --env TARGET=Third
+clear: true
 ``` 
 ```terminal:execute
 command: kn service describe advanced-knative-route-example
+clear: true
 ```
 Instead of seeing 0%, you see a `+` symbol.
 Right now, this *Revision* isn’t excluded because of how routing arithmetic works when given zeroes—it’s excluded from the routing arithmetic altogether. 
 You can figure this out if you have a look at the *Route* instead of the *Service*
 ```terminal:execute
 command: kn route describe advanced-knative-route-example
+clear: true
 ```
 That’s why the default *Knative Serving* behavior sets `latestRevision: true` and then updates a floating `@latest` tag automatically.
 But when you manually assign traffic percentages, this automatic behavior is disabled and you are given full control. 
 Happily, you can undo it pretty easily because `@latest` is always available as a tag. 
 ```terminal:execute
 command: kn service update advanced-knative-route-example --traffic first-tag=33 --traffic second-tag=33 --traffic @latest=34
+clear: true
 ``` 
 ```terminal:execute
 command: kn service describe advanced-knative-route-example
+clear: true
 ```
 You are able free up tags via the `--untag` option.
 ```terminal:execute
 command: kn service update advanced-knative-route-example --untag first-tag
+clear: true
 ```
 ```terminal:execute
 command: kn route describe advanced-knative-route-example
+clear: true
 ``` 
 Knative Serving opts for safety. This means that as it removes the first-tag tag as the *Traffic Target*, it substitutes the *Revision* that was pointed at by the tag. 
 

@@ -27,6 +27,7 @@ A second option for setting configurations is via annotations.
 Let's first create a new service.
 ```terminal:execute
 command: kn service create advanced-knative-autoscaling-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First"
+clear: true
 ```
 
 #### Setting scaling limits
@@ -46,39 +47,45 @@ The alternative is setting a `/minScale` annotation on a *Service* or a *Revisio
 For a *Revision* you can do that with the kubectl CLI, but because the annotation has to be set in the *RevisionTemplateSpec* it's not possible to set it via `kubectl annotate kservice`.
 ```terminal:execute
 command: kubectl annotate revision advanced-knative-autoscaling-example-00001 autoscaling.knative.dev/minScale=1
+clear: true
 ```
 ```terminal:execute
 command: kn revision describe advanced-knative-autoscaling-example-00001
+clear: true
 ```
 As an alternative, you can set the annotation for a *Service* in *RevisionTemplateSpec* via YAML.
-```execute
-kubectl apply -f - << EOF
-apiVersion: serving.knative.dev/v1
-kind: Service
-metadata:
-  name: advanced-knative-autoscaling-example
-spec:
-  template:
-    metadata:
-      annotations:
-        autoscaling.knative.dev/minScale: "2"
-    spec:
-      containers:
-      - image: gcr.io/knative-samples/helloworld-go
-        env:
-        - name: TARGET
-          value: "First"
-EOF
+```terminal:execute
+command: |
+  kubectl apply -f - << EOF
+  apiVersion: serving.knative.dev/v1
+  kind: Service
+  metadata:
+    name: advanced-knative-autoscaling-example
+  spec:
+    template:
+      metadata:
+        annotations:
+          autoscaling.knative.dev/minScale: "2"
+      spec:
+        containers:
+        - image: gcr.io/knative-samples/helloworld-go
+          env:
+          - name: TARGET
+            value: "First"
+  EOF
+clear: true
 ```
 
 Another option is to set the annotation via the kn CLI.
 ```terminal:execute
 command: kn service update advanced-knative-autoscaling-example --annotation autoscaling.knative.dev/minScale=0
+clear: true
 ```
 
 Additionally, the minimum and maximum(`/maxScale` annotation) scale options are sufficiently likely to be used that kn allows you to set these at creation time or when updating a *Service* with `--min-scale` and `--max-scale`.
 ```terminal:execute
 command: kn service update advanced-knative-autoscaling-example --min-scale 1 --max-scale 5
+clear: true
 ```
 
 #### Setting scaling rates
