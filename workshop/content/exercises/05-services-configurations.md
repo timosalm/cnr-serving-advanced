@@ -58,7 +58,7 @@ The template is actually a *RevisionTemplateSpec* and the innermost spec is a *R
 
 Let's now create the first revision of a service/configuration via a YAML document. In this case we are redirecting the YAML document content input into the interactive shell command. In most cases you would instead create a file of type yaml and apply it via e.g. `kubectl apply -f advanced-knative-example.yaml`
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service
@@ -94,7 +94,7 @@ In this case we are using kubectl commands for it, but you are also able to use 
 
 Let's now update our configuration by changing the ENV variable to the value "Second".
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service

@@ -10,7 +10,7 @@ By using kn to create a Knative *Service*, a *Route* will be created automatical
 
 Let's first create a new service with two revisions.
 ```terminal:execute
-command: |
+command: |-
     kn service create advanced-knative-route-example --image gcr.io/knative-samples/helloworld-go --env TARGET="First"
     kn service update advanced-knative-route-example --env TARGET="Second"
 clear: true

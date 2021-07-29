@@ -1,6 +1,6 @@
 Let's have a look at the basic information about a *Revision*.
 ```terminal:execute
-command: |
+command: |-
   kn service create advanced-knative-example --env TARGET=Second --image gcr.io/knative-samples/helloworld-go
   kn revision describe advanced-knative-example-00001
 clear: true
@@ -16,7 +16,7 @@ clear: true
 ```
 Of course, the same can be achieved in YAML by adding the name to the *RevisionTemplateSpec's* metadata. As you may have noticed, if you use the kn CLI to set a *Revision* name, Knative will automatically prefix the name with the *Service*/*Configuration* name and a dash. With YAML you have to add the prefix yourself.
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service
@@ -56,7 +56,7 @@ Here is a list of important labels and annotations on *Revisions*:
 
 If want to create `Revisions` with a name of your own choosing, you have to change the name on every update. So let's revert to the automatic generated names for the rest of the workshop.
 ```terminal:execute
-command: |
+command: |-
   kubectl delete kservice advanced-knative-example
   kn service create advanced-knative-example --env TARGET=Second --image gcr.io/knative-samples/helloworld-go
 clear: true
@@ -101,7 +101,7 @@ clear: true
 ```
 If you prefer to use YAML, you are able to set the environment variables in the *Configuration* via the *env* property.
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service
@@ -136,7 +136,7 @@ Apart from environment variables that you set yourself, *Knative Serving* inject
 As with pods there are actually two alternative ways of injecting environment variables: `envFrom` and `valueFrom` for values that come from either a ConfigMap or a Secret.
 The kn cli supports injecting environment variables from ConfigMaps or Secrets via the `--env-from` option
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   ---
   apiVersion: v1
@@ -219,7 +219,7 @@ clear: true
 There is also another option, `--concurrency-target`, but this works differently. Instead of setting a maximum level of concurrency, it sets a desired level of concurrency. Right now you can use `--concurrency-limit`, and Knative sets `--concurrency-target` to the same level.
 There isn’t an equivalent in the YAML for `--concurrency-target`, for `--concurrency-limit` it's `containerConcurrency`.
 ```terminal:execute
-command: |
+command: |-
   kn service delete advanced-knative-example
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
@@ -251,7 +251,7 @@ This setting is not directly surfaced through kn and, instead, has to be set usi
 Out of the box, you can set values up to 600 (10 minutes). Knative Serving’s timeout limit can be raised by tinkering with the installation configuration. 
 
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service

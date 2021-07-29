@@ -55,7 +55,7 @@ clear: true
 ```
 As an alternative, you can set the annotation for a *Service* in *RevisionTemplateSpec* via YAML.
 ```terminal:execute
-command: |
+command: |-
   kubectl apply -f - << EOF
   apiVersion: serving.knative.dev/v1
   kind: Service
