@@ -21,7 +21,7 @@ clear: true
 
 To test our deployment send a request to the application after deployment is ready to serve traffic.
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 
@@ -33,7 +33,7 @@ clear: true
 ```
 Let’s now send another request to the application after the updated deployment is ready to serve traffic.
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 
@@ -64,7 +64,7 @@ So this line `I Active 11s NoTraffic` can be read as "As of 11 seconds ago, the 
 
 If we send another request to the application ...
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 and rerun the command for the revision details ...
@@ -83,7 +83,7 @@ clear: true
 ```
 and send another request to the updated application deployment.
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 Changing the environment variable caused the creation of a second *Revision*. Changing the image caused a third *Revision* to be created. But because you didn’t change the variable, the third *Revision* also says `Hello world: Second`. In fact, almost any update you make to a *Service* causes a new *Revision* to be stamped out. Almost any? What’s the exception? It’s *Routes*. Updating these as part of a *Service* won’t create a new *Revision*.
@@ -103,12 +103,12 @@ clear: true
 
 Let's send a request and ...
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 if you send another request you should see that it works and a slightly different message will be returned from the other *Revision*.
 ```terminal:execute
-command: curl $(kn service describe intro-knative-example -o url)
+command: curl -L $(kn service describe intro-knative-example -o url)
 clear: true
 ```
 *Hint: If there are timeout issues e.g. due to the scale from zero to one instance, just rerun the command.*
